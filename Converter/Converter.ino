@@ -27,43 +27,11 @@
 #define WHITE   0xFFFF
 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-
-String utf8rus(String source)
-{
-  int i,k;
-  String target;
-  unsigned char n;
-  char m[2] = { '0', '\0' };
-
-  k = source.length(); i = 0;
-
-  while (i < k) {
-    n = source[i]; i++;
-
-    if (n >= 0xC0) {
-      switch (n) {
-        case 0xD0: {
-          n = source[i]; i++;
-          if (n == 0x81) { n = 0xA8; break; }
-          if (n >= 0x90 && n <= 0xBF) n = n + 0x30;
-          break;
-        }
-        case 0xD1: {
-          n = source[i]; i++;
-          if (n == 0x91) { n = 0xB8; break; }
-          if (n >= 0x80 && n <= 0x8F) n = n + 0x70;
-          break;
-        }
-      }
-    }
-    m[0] = n; target = target + String(m);
-  }
-return target;
-}
-
-void setup(void) {    
+ 
+void setup(void) {   
+   
   tft.reset();
-  tft.begin(); 
+  tft.begin(0x9341, 1); 
   tft.cp437(true);  
 }
 
@@ -77,24 +45,21 @@ unsigned long testText() {
   tft.setCursor(0, 0);
   tft.println();
   tft.setTextColor(0xFCA0);
-  tft.println(utf8rus("Андрюша"));
+  tft.println("Andrusha");
   tft.setTextSize(3);
   tft.setTextColor(0xFCA0);
-  tft.print(utf8rus("п"));
+  tft.print("P");
   tft.setTextColor(BLUE);
-  tft.print(utf8rus("и"));
+  tft.print("I");
   tft.setTextColor(YELLOW);
-  tft.print(utf8rus("д"));
+  tft.print("D");
   tft.setTextColor(GREEN);
-  tft.print(utf8rus("о"));
+  tft.print("O");
   tft.setTextColor(WHITE);
-  tft.print(utf8rus("р"));
-  delay(1000);
-  tft.fillScreen(0xFCA0);
-  tft.setCursor(0, 0);
-  tft.setTextSize(2);
-  tft.println(utf8rus("Пельмешек"));
-  delay(1000);
+  tft.print("R");
+  delay(500);
+  
+
   /*
   unsigned long start = micros();
   tft.setCursor(0, 0);
